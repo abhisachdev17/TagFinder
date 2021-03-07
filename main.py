@@ -1,6 +1,31 @@
 from flask import Blueprint, render_template, request
+import requests
+from datetime import datetime, date, timedelta
+import json
 
 main = Blueprint('main', __name__, template_folder='templates')
+
+def build_url(from_time, to_time, tag):
+    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort=activity&tagged={:s}&site=stackoverflow"
+    url = stackoverflow_url.format(from_time, to_time, tag)
+    return url
+
+def get_dates_for_url():
+    today = datetime.now()
+    to_time = int(today.timestamp())
+
+    week_ago = today - timedelta(days=7)
+    from_date = datetime(week_ago.year, week_ago.month, week_ago.day)
+    from_time = int(from_date.timestamp()) 
+    return (from_time, to_time)
+
+def top_ten_created(data):
+    sorted_data = sorted(data, key = lambda x: int(x["creation_date"]),reverse=True)
+    return sorted_data[:10]
+
+def top_ten_voted(data):
+    sorted_data = sorted(data, key = lambda x: int(x["score"]), reverse=True)
+    return sorted_data[:10]
 
 @main.route('/')
 def index():
@@ -10,7 +35,25 @@ def index():
 def results_display():
     try:
         tag = request.form.get('tag')
+
+        from_time, to_time = get_dates_for_url()
+        url = build_url(str(from_time), str(to_time), tag)
+        print(url)
+        response = requests.get(url)
+
+        data = response.json()
+        
+        created = top_ten_created(data['items'])
+        voted = top_ten_voted(data['items'])
+
+        print(created)
+        print(voted)
+
     except KeyError as e:
-        tag = ''
+        tag = 'null'
     
-    return render_template('results.html', results="Did not find any results for " + tag)
+    except Exception as e:
+        print(str(e))
+
+    finally:
+        return render_template('results.html', voted=voted, created=created)

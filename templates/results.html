@@ -5,6 +5,34 @@
   Software Engineering Assignment
 </h1>
 <h2 class="subtitle">
-  {{ results }}
+  Top Voted
 </h2>
+<div class='list'> 
+  {% for post in voted %}
+
+  <ul> 
+      <div class='list-item'> 
+          <li> 
+              {{ post['owner']['display_name'] }}
+          </li> 
+      </div> 
+  </ul>
+  {% endfor %}
+</div>
+
+<h2 class="subtitle">
+  Newly Created
+</h2>
+<div class='list'> 
+  {% for post in created %}
+
+  <ul> 
+      <div class='list-item'> 
+          <li> 
+              {{ post['owner']['display_name'] }}
+          </li> 
+      </div> 
+  </ul>
+  {% endfor %}
+</div>
 {% endblock %}
