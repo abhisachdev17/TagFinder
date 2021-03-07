@@ -19,13 +19,13 @@ def get_dates_for_url():
     from_time = int(from_date.timestamp()) 
     return (from_time, to_time)
 
-def top_ten_created(data):
+def sort_created(data, count):
     sorted_data = sorted(data, key = lambda x: int(x["creation_date"]),reverse=True)
-    return sorted_data[:10]
+    return sorted_data[:count]
 
-def top_ten_voted(data):
+def sort_voted(data, count):
     sorted_data = sorted(data, key = lambda x: int(x["score"]), reverse=True)
-    return sorted_data[:10]
+    return sorted_data[:count]
 
 @main.route('/')
 def index():
@@ -43,11 +43,12 @@ def results_display():
 
         data = response.json()
         
-        created = top_ten_created(data['items'])
-        voted = top_ten_voted(data['items'])
+        created = sort_created(data['items'], 10)
+        voted = sort_voted(data['items'], 10)
 
-        print(created)
-        print(voted)
+        merged = created.copy()
+        merged.extend(voted.copy())
+        merged = sort_created(merged, len(merged))
 
     except KeyError as e:
         tag = 'null'
@@ -56,4 +57,4 @@ def results_display():
         print(str(e))
 
     finally:
-        return render_template('results.html', voted=voted, created=created)
+        return render_template('results.html', voted=voted, created=created, merged=merged)

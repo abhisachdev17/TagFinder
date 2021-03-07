@@ -35,4 +35,20 @@
   </ul>
   {% endfor %}
 </div>
+
+<h2 class="subtitle">
+Merged
+</h2>
+<div class='list'> 
+  {% for post in merged %}
+
+  <ul> 
+      <div class='list-item'> 
+          <li> 
+              {{ post['owner']['display_name'] }}
+          </li> 
+      </div> 
+  </ul>
+  {% endfor %}
+</div>
 {% endblock %}
