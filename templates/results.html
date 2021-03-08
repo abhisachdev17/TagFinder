@@ -19,17 +19,21 @@
                 <b>Votes:</b> {{ post['score'] }} 
               </button>
               
-              <div class="content"> Comments: <br/>
+              <div class="content"> <b>Comments:</b> <br/>
                 {% for comment in post['comments'] %}
-                  {{ comment['body'] }} <br/>
+                <div class="box"> {{ comment['body']|safe }} </div>
                 {% endfor %}
+    
+                <h2> <b>Answers:</b> </h2> <br/>
                 {% for answer in post['answers'] %}
-                  <button type="button" class="collapsible is-answer"> {{ answer['body'] }} </button>
-                  <div class="content"> Comments: <br/>
+                <div class ="box">
+                  <button type="button" class="collapsible is-answer"> {{ answer['body']|safe }} </button>
+                  <div class="content"> Comments:
                     {% for comment in answer['comments'] %}
-                      {{ comment['body'] }} <br/>
+                       <div class="box"> {{ comment['body']|safe }} </div>
                     {% endfor %}
                   </div>
+                </div>
                 {% endfor %}  
               </div>
             </li> 
