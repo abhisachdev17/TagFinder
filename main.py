@@ -5,9 +5,13 @@ import json
 
 main = Blueprint('main', __name__, template_folder='templates')
 
-def build_url(from_time, to_time, tag):
-    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort=activity&tagged={:s}&site=stackoverflow"
-    url = stackoverflow_url.format(from_time, to_time, tag)
+CREATED = 'creation'
+VOTED = 'votes'
+COUNT = 10
+
+def build_url(from_time, to_time, sort_on, tag):
+    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&site=stackoverflow"
+    url = stackoverflow_url.format(from_time, to_time, sort_on, tag)
     return url
 
 def get_dates_for_url():
@@ -23,10 +27,6 @@ def sort_created(data, count):
     sorted_data = sorted(data, key = lambda x: int(x["creation_date"]),reverse=True)
     return sorted_data[:count]
 
-def sort_voted(data, count):
-    sorted_data = sorted(data, key = lambda x: int(x["score"]), reverse=True)
-    return sorted_data[:count]
-
 @main.route('/')
 def index():
     return render_template('index.html')
@@ -37,20 +37,29 @@ def results_display():
         tag = request.form.get('tag')
 
         from_time, to_time = get_dates_for_url()
-        url = build_url(str(from_time), str(to_time), tag)
-        print(url)
+        url = build_url(str(from_time), str(to_time), CREATED, tag)
         response = requests.get(url)
 
         data = response.json()
-        
-        created = sort_created(data['items'], 10)
-        voted = sort_voted(data['items'], 10)
+        created = data['items'][:COUNT]
+
+        url = build_url(str(from_time), str(to_time), VOTED, tag)
+        response = requests.get(url)
+        voted = data['items'][:COUNT]
 
         merged = created.copy()
-        merged.extend(voted.copy())
+        for i in voted:
+            exists = False
+            for j in merged:
+                if i['question_id'] == j['question_id']:
+                    exists = True
+            if not exists:
+                merged.append(i)
+
         merged = sort_created(merged, len(merged))
 
     except KeyError as e:
+        print(data)
         tag = 'null'
     
     except Exception as e:
