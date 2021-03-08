@@ -14,16 +14,20 @@
     <ul> 
         <div class='list-item'> 
             <li> 
-              <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
-              <div class="content"> Comments:
+              <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} 
+                <b>Created:</b> {{ post['creation_date'] }} 
+                <b>Votes:</b> {{ post['score'] }} 
+              </button>
+              
+              <div class="content"> Comments: <br/>
                 {% for comment in post['comments'] %}
-                  {{ comment['body'] }}
+                  {{ comment['body'] }} <br/>
                 {% endfor %}
                 {% for answer in post['answers'] %}
                   <button type="button" class="collapsible is-answer"> {{ answer['body'] }} </button>
-                  <div class="content"> Comments:
+                  <div class="content"> Comments: <br/>
                     {% for comment in answer['comments'] %}
-                      {{ comment['body'] }}
+                      {{ comment['body'] }} <br/>
                     {% endfor %}
                   </div>
                 {% endfor %}  

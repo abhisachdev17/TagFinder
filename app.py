@@ -5,6 +5,6 @@ def create_app():
     
     from main import main 
     from stub import stub
-    app.register_blueprint(stub)
+    app.register_blueprint(main)
     
     return app

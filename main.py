@@ -47,6 +47,8 @@ def results_display():
 
         url = build_url(str(from_time), str(to_time), VOTED, tag)
         response = requests.get(url)
+
+        data = response.json()
         voted = data['items'][:COUNT]
 
         merged = created.copy()
