@@ -4,57 +4,36 @@
 <h1 class="title">
   Software Engineering Assignment
 </h1>
-<h2 class="subtitle">
-  Top Voted
-</h2>
-<div class='list'> 
-  {% for post in voted %}
 
-  <ul> 
-      <div class='list-item'> 
-          <li> 
-            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
-            <div class="content"> {{ post['title'] }} </div>
-          </li> 
-      </div> 
-  </ul>
-  {% endfor %}
-</div>
-
-<h2 class="subtitle">
-  Newly Created
-</h2>
-<div class='list'> 
-  {% for post in created %}
-
-  <ul> 
-      <div class='list-item'> 
-          <li> 
-            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
-            <div class="content"> {{ post['title'] }} </div>
-          </li> 
-      </div> 
-  </ul>
-  {% endfor %}
-</div>
-
-<h2 class="subtitle">
-Merged
-</h2>
-<div class='list'> 
-  {% for post in merged %}
-
-  <ul> 
-      <div class='list-item'> 
-          <li> 
-            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
-            <div class="content"> {{ post['title'] }} </div>
-          </li> 
-      </div> 
-  </ul>
-  {% endfor %}
-</div>
-
+{% for questions in all_questions %}
+  <h2 class="subtitle">
+    {{ questions['title'] }}
+  </h2>
+  <div class='list'> 
+    {% for post in questions['list'] %}
+    <ul> 
+        <div class='list-item'> 
+            <li> 
+              <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
+              <div class="content"> Comments:
+                {% for comment in post['comments'] %}
+                  {{ comment['body'] }}
+                {% endfor %}
+                {% for answer in post['answers'] %}
+                  <button type="button" class="collapsible is-answer"> {{ answer['body'] }} </button>
+                  <div class="content"> Comments:
+                    {% for comment in answer['comments'] %}
+                      {{ comment['body'] }}
+                    {% endfor %}
+                  </div>
+                {% endfor %}  
+              </div>
+            </li> 
+        </div> 
+    </ul>
+    {% endfor %}
+  </div>
+{% endfor %}
 
 <script>
   var coll = document.getElementsByClassName("collapsible");

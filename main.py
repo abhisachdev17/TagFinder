@@ -11,8 +11,8 @@ COUNT = 10
 
 def build_url(from_time, to_time, sort_on, tag):
     ## The filer that this url is using returns answers for each questions and all of the related comments
-    
-    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&filter=!3zl2.BpdpOrKhVqeu&site=stackoverflow"
+
+    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&filter=!)rTkraPYPefwELKox66q&site=stackoverflow"
     url = stackoverflow_url.format(from_time, to_time, sort_on, tag)
     return url
 
@@ -68,4 +68,4 @@ def results_display():
         print(str(e))
 
     finally:
-        return render_template('results.html', voted=voted, created=created, merged=merged)
+        return render_template('results.html', all_questions= [{'title':'Top Voted', 'list': voted}, {'title':'Newest', 'list': created}, {'title':'Merged', 'list': merged}])
