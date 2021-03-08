@@ -10,7 +10,9 @@ VOTED = 'votes'
 COUNT = 10
 
 def build_url(from_time, to_time, sort_on, tag):
-    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&site=stackoverflow"
+    ## The filer that this url is using returns answers for each questions and all of the related comments
+    
+    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&filter=!3zl2.BpdpOrKhVqeu&site=stackoverflow"
     url = stackoverflow_url.format(from_time, to_time, sort_on, tag)
     return url
 

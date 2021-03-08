@@ -4,6 +4,7 @@ def create_app():
     app = Flask(__name__)
     
     from main import main 
-    app.register_blueprint(main)
+    from stub import stub
+    app.register_blueprint(stub)
     
     return app

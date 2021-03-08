@@ -13,9 +13,8 @@
   <ul> 
       <div class='list-item'> 
           <li> 
-              <h3> Title: {{ post['title'] }} </h3>
-              <h3> Created: {{ post['creation_date'] }} </h3>
-              <h3> Votes: {{ post['score'] }} </h3>
+            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
+            <div class="content"> {{ post['title'] }} </div>
           </li> 
       </div> 
   </ul>
@@ -31,9 +30,8 @@
   <ul> 
       <div class='list-item'> 
           <li> 
-            <h3> Title: {{ post['title'] }} </h3>
-            <h3> Created: {{ post['creation_date'] }} </h3>
-            <h3> Votes: {{ post['score'] }} </h3>
+            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
+            <div class="content"> {{ post['title'] }} </div>
           </li> 
       </div> 
   </ul>
@@ -49,12 +47,30 @@ Merged
   <ul> 
       <div class='list-item'> 
           <li> 
-            <h3> Title: {{ post['title'] }} </h3>
-            <h3> Created: {{ post['creation_date'] }} </h3>
-            <h3> Votes: {{ post['score'] }} </h3>
+            <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} <b>Created:</b> {{ post['creation_date'] }} <b>Votes:</b> {{ post['score'] }} </button>
+            <div class="content"> {{ post['title'] }} </div>
           </li> 
       </div> 
   </ul>
   {% endfor %}
 </div>
+
+
+<script>
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+  
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+  </script>
+
 {% endblock %}
