@@ -62,12 +62,7 @@ def results_display():
 
         merged = sort_created(merged, len(merged))
 
-    except KeyError as e:
-        print(data)
-        tag = 'null'
-    
-    except Exception as e:
-        print(str(e))
-
-    finally:
         return render_template('results.html', all_questions= [{'title':'Top Voted', 'list': voted}, {'title':'Newest', 'list': created}, {'title':'Merged', 'list': merged}])
+
+    except Exception as e:
+        return render_template('error.html', error= str(e), response=data)

@@ -8,39 +8,48 @@
 {% for questions in all_questions %}
   <h2 class="subtitle">
     {{ questions['title'] }}
-  </h2>
-  <div class='list'> 
-    {% for post in questions['list'] %}
-    <ul> 
-        <div class='list-item'> 
-            <li> 
-              <button type="button" class="collapsible"> <b>Title:</b> {{ post['title'] }} 
-                <b>Created:</b> {{ post['creation_date'] }} 
-                <b>Votes:</b> {{ post['score'] }} 
+  </h2> 
+    {% for post in questions['list'] %} 
+        <div class="box">  
+              <button type="button" class="collapsible"> 
+                <h4> <b> {{ post['title'] }} </b> </h4> 
+                <b>{{ post['owner']['display_name'] }}, </b>
+                <b> Created: </b> {{ post['creation_date']|strftime }} 
+                <div style= "float: right;"> <b> Votes: </b> {{ post['score'] }} </div>
               </button>
               
-              <div class="content"> <b>Comments:</b> <br/>
+              <div class="content"> <h4> <b>Comments:</b> </h4> <br/>
                 {% for comment in post['comments'] %}
-                <div class="box"> {{ comment['body']|safe }} </div>
+                  <div class="box"> {{ comment['body']|safe }} </br>
+                    <b>{{ comment['owner']['display_name'] }}, </b>
+                    <b> Created: </b> {{ comment['creation_date']|strftime }} 
+                    <div style= "float: right;"> <b> Votes: </b> {{ comment['score'] }}</div>
+                  </div>
                 {% endfor %}
-    
-                <h2> <b>Answers:</b> </h2> <br/>
+
+                <h4> <b>Answers:</b> </h4> <br/>
                 {% for answer in post['answers'] %}
                 <div class ="box">
-                  <button type="button" class="collapsible is-answer"> {{ answer['body']|safe }} </button>
-                  <div class="content"> Comments:
-                    {% for comment in answer['comments'] %}
-                       <div class="box"> {{ comment['body']|safe }} </div>
+                  <button type="button" class="collapsible is-answer"> {{ answer['body']|safe }} 
+                    <br/>
+                    <b>{{ post['owner']['display_name'] }}, </b>
+                    <b> Created: </b> {{ post['creation_date']|strftime }} 
+                  <div style= "float: right;"> <b> Votes: </b> {{ post['score'] }} </div>
+                  
+                  </button>
+                  <div class="content"> <h4> <b>Comments:</b> </h4> <br/>
+                    {% for comment in post['comments'] %}
+                      <div class="box"> {{ comment['body']|safe }} </div>
+                      <b>{{ comment['owner']['display_name'] }}, </b>
+                      <b> Created: </b> {{ comment['creation_date']|strftime }} 
+                      <div style= "float: right;"> <b> Votes: </b> {{ comment['score'] }}</div>
                     {% endfor %}
-                  </div>
+                    </div>
                 </div>
                 {% endfor %}  
-              </div>
-            </li> 
+              </div> 
         </div> 
-    </ul>
     {% endfor %}
-  </div>
 {% endfor %}
 
 <script>
