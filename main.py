@@ -21,8 +21,7 @@ def get_dates_for_url():
     to_time = int(today.timestamp())
 
     week_ago = today - timedelta(days=7)
-    from_date = datetime(week_ago.year, week_ago.month, week_ago.day)
-    from_time = int(from_date.timestamp()) 
+    from_time = int(week_ago.timestamp()) 
     return (from_time, to_time)
 
 def sort_created(data, count):
@@ -62,7 +61,7 @@ def results_display():
 
         merged = sort_created(merged, len(merged))
 
-        return render_template('results.html', all_questions= [{'title':'Top Voted', 'list': voted}, {'title':'Newest', 'list': created}, {'title':'Merged', 'list': merged}])
+        return render_template('results.html', all_questions= [{'title':'Merged', 'list': merged}, {'title':'Top Voted', 'list': voted}, {'title':'Newest', 'list': created}])
 
     except Exception as e:
         return render_template('error.html', error= str(e), response=data)
