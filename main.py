@@ -9,11 +9,11 @@ CREATED = 'creation'
 VOTED = 'votes'
 COUNT = 10
 
-def build_url(from_time, to_time, sort_on, tag):
+def build_url(count, from_time, to_time, sort_on, tag):
     ## The filer that this url is using returns answers for each questions and all of the related comments
 
-    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&filter=!)rTkraPYPefwELKox66q&site=stackoverflow"
-    url = stackoverflow_url.format(from_time, to_time, sort_on, tag)
+    stackoverflow_url = "https://api.stackexchange.com/2.2/search?order=desc&pagesize={:s}&fromdate={:s}&todate={:s}&sort={:s}&tagged={:s}&filter=!)rTkraPYPefwELKox66q&site=stackoverflow"
+    url = stackoverflow_url.format(count, from_time, to_time, sort_on, tag)
     return url
 
 def get_dates_for_url():
@@ -39,17 +39,17 @@ def results_display():
         tag = request.form.get('tag')
 
         from_time, to_time = get_dates_for_url()
-        url = build_url(str(from_time), str(to_time), CREATED, tag)
+        url = build_url(str(COUNT), str(from_time), str(to_time), CREATED, tag)
         response = requests.get(url)
 
         data = response.json()
-        created = data['items'][:COUNT]
+        created = data['items'] # [:COUNT]
 
-        url = build_url(str(from_time), str(to_time), VOTED, tag)
+        url = build_url(str(COUNT), str(from_time), str(to_time), VOTED, tag)
         response = requests.get(url)
 
         data = response.json()
-        voted = data['items'][:COUNT]
+        voted = data['items'] # [:COUNT]
 
         merged = created.copy()
         for i in voted:
