@@ -10,4 +10,4 @@ services:
     environment:
       - APP_NAME=tagfinder
     ports:
-      - "8080:5000"
+      - "5000:5000"

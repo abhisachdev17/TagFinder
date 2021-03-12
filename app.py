@@ -9,7 +9,6 @@ def create_app():
     
     # from stub import stub
     # app.register_blueprint(stub)
-    
 
     @app.template_filter('strftime')
     def filter_datetime(s, fmt=None):

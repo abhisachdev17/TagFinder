@@ -24,9 +24,9 @@ def get_dates_for_url():
     from_time = int(week_ago.timestamp()) 
     return (from_time, to_time)
 
-def sort_created(data, count):
+def sort_created(data):
     sorted_data = sorted(data, key = lambda x: int(x["creation_date"]),reverse=True)
-    return sorted_data[:count]
+    return sorted_data
 
 @main.route('/')
 def index():
@@ -59,7 +59,7 @@ def results_display():
             if not exists:
                 merged.append(i)
 
-        merged = sort_created(merged, len(merged))
+        merged = sort_created(merged)
 
         return render_template('results.html', all_questions= [{'title':'Merged', 'list': merged}, {'title':'Top Voted', 'list': voted}, {'title':'Newest', 'list': created}])
 
